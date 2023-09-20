@@ -1,18 +1,17 @@
 #include "main.h"
-
 /**
-* _printf - creating the custom printf function
-* @format: the format string
-* Return: no. of characters printed (excluding null terminator)
+* _printf - printf function
+* @format: const char pointer
+* Return: b_len
 */
 int _printf(const char *format, ...)
 {
-int (*pfunc)(va_list, fmt_flags *);
+int (*pfunc)(va_list, fmt_flags_t *);
 const char *p;
 va_list arguments;
-fmt_flags flags = {0, 0, 0};
+fmt_flags_t flags = {0, 0, 0};
 
-register int count = 0;
+int _reg = 0;
 
 va_start(arguments, format);
 if (!format || (format[0] == '%' && !format[1]))
@@ -26,22 +25,29 @@ if (*p == '%')
 p++;
 if (*p == '%')
 {
-count += _putchar('%');
+_reg += _putchar('%');
 continue;
 }
-while (get_flag(*p, &flags))
+while (set_flags(*p, &flags))
+p++;
+if (*p == '%')
+{
+_reg += _putchar('%');
+continue;
+}
+while (set_flags(*p, &flags))
 p++;
 pfunc = get_print(*p);
-count += (pfunc)
+_reg += (pfunc)
 ? pfunc(arguments, &flags)
 : _printf("%%%c", *p);
 }
 else
 {
-count += _putchar(*p);
+_reg += _putchar(*p);
 }
 }
 _putchar(-1);
 va_end(arguments);
-return (count);
+return (_reg);
 }
