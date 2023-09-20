@@ -34,7 +34,7 @@ int _printf(const char *format, ...);
 int _putchar(char c);
 int _puts(char *str);
 char *convert(unsigned long int num, int base, int lowercase);
-int set_flags(char s, fmt_flags_t *f);
+int get_flag(char s, fmt_flags_t *f);
 int (*get_print(char s))(va_list, fmt_flags_t *);
 int print_hex_address(va_list l, fmt_flags_t *f);
 int print_string(va_list l, fmt_flags_t *f);
