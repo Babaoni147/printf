@@ -28,14 +28,14 @@ if (*p == '%')
 _reg += _putchar('%');
 continue;
 }
-while (set_flags(*p, &flags))
+while (get_flag(*p, &flags))
 p++;
 if (*p == '%')
 {
 _reg += _putchar('%');
 continue;
 }
-while (set_flags(*p, &flags))
+while (get_flag(*p, &flags))
 p++;
 pfunc = get_print(*p);
 _reg += (pfunc)
