@@ -1,23 +1,20 @@
 #include "main.h"
-
 /**
-* _printf - creating the custom printf function
-* @format: the format string
-* Return: no. of characters printed (excluding null terminator)
+* _printf - Custom printf function
+* @format: Format string
+* Return: Number of characters printed
 */
 int _printf(const char *format, ...)
 {
-int (*pfunc)(va_list, fmt_flags *);
+int (*print_fun)(va_list, fmt_flags_t *);
 const char *p;
-va_list arguments;
-fmt_flags flags = {0, 0, 0};
+va_list args;
+fmt_flags_t flags = {0, 0, 0};
+int chars_printed = 0;
 
-register int count = 0;
-
-va_start(arguments, format);
-if (!format || (format[0] == '%' && !format[1]))
-return (-1);
-if (format[0] == '%' && format[1] == ' ' && !format[2])
+va_start(args, format);
+if (!format || (format[0] == '%' && !format[1]) ||
+(format[0] == '%' && format[1] == ' ' && !format[2]))
 return (-1);
 for (p = format; *p; p++)
 {
@@ -26,22 +23,26 @@ if (*p == '%')
 p++;
 if (*p == '%')
 {
-count += _putchar('%');
+chars_printed += _putchar('%');
 continue;
 }
 while (get_flag(*p, &flags))
 p++;
-pfunc = get_print(*p);
-count += (pfunc)
-? pfunc(arguments, &flags)
-: _printf("%%%c", *p);
+if (*p == '%')
+{
+chars_printed += _putchar('%');
+continue;
+}
+while (get_flag(*p, &flags))
+p++;
+print_fun = get_print(*p);
+chars_printed += (print_fun) ? print_fun(args, &flags) :
+_printf("%%%c", *p);
 }
 else
-{
-count += _putchar(*p);
-}
+chars_printed += _putchar(*p);
 }
 _putchar(-1);
-va_end(arguments);
-return (count);
+va_end(args);
+return (chars_printed);
 }

@@ -1,32 +1,30 @@
 #include "main.h"
-
 /**
-* get_flag - activates specific formatting flags
-*when _printf encounters a flag specifier
-* @s: the character holding the flag specifier
-* @f: pointer to the struct fmt_flags where flags are set
+* get_flag - gets flags if _printf finds
+* @s: character that holds the flag specifier
+* @f: pointer to the struct fmt_flags in which we set the flags
 *
-* Return: 1 if a flag is successfully activated, 0 otherwise
+* Return: 1 if a flag has been set, 0 otherwise
 */
-int get_flag(char s, fmt_flags *f)
+int get_flag(char s, fmt_flags_t *f)
 {
-int flag_activated = 0;
+int flag_set = 0;
 
-switch (s)
+if (s == '+')
 {
-case '+':
 f->plus = 1;
-flag_activated = 1;
-break;
-case ' ':
+flag_set = 1;
+}
+else if (s == ' ')
+{
 f->space = 1;
-flag_activated = 1;
-break;
-case '#':
+flag_set = 1;
+}
+else if (s == '#')
+{
 f->hash = 1;
-flag_activated = 1;
-break;
+flag_set = 1;
 }
 
-return (flag_activated);
+return (flag_set);
 }
